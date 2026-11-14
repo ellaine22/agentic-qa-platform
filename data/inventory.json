@@ -1,0 +1,51 @@
+{
+  "_note": "Feature inventory. In production this is generated from the codebase (route table for web, navigation graph for mobile) by a build-time script, together with churn, defect and traffic signals from git, Jira and analytics. Held as a fixture here so the coverage agent has something real to score against.",
+
+  "web": [
+    { "route": "/",                        "feature": "sign-in",             "area": "auth",     "churn30d": 2,  "defects90d": 1, "traffic": 100 },
+    { "route": "/inventory.html",          "feature": "catalog",             "area": "catalog",  "churn30d": 9,  "defects90d": 3, "traffic": 94 },
+    { "route": "/inventory-item.html",     "feature": "product detail",      "area": "catalog",  "churn30d": 3,  "defects90d": 0, "traffic": 41 },
+    { "route": "/cart.html",               "feature": "cart",                "area": "cart",     "churn30d": 7,  "defects90d": 2, "traffic": 38 },
+    { "route": "/checkout-step-one.html",  "feature": "checkout details",    "area": "checkout", "churn30d": 11, "defects90d": 4, "traffic": 22 },
+    { "route": "/checkout-step-two.html",  "feature": "checkout overview",   "area": "checkout", "churn30d": 11, "defects90d": 5, "traffic": 20 },
+    { "route": "/checkout-express.html",   "feature": "express checkout",    "area": "checkout", "churn30d": 34, "defects90d": 0, "traffic": 0  },
+    { "route": "/checkout-complete.html",  "feature": "order confirmation",  "area": "checkout", "churn30d": 4,  "defects90d": 1, "traffic": 18 },
+    { "route": "/account.html",            "feature": "account settings",    "area": "account",  "churn30d": 1,  "defects90d": 2, "traffic": 12 },
+    { "route": "/order-history.html",      "feature": "order history",       "area": "account",  "churn30d": 0,  "defects90d": 3, "traffic": 9  },
+    { "route": "/password-reset.html",     "feature": "password reset",      "area": "auth",     "churn30d": 5,  "defects90d": 4, "traffic": 6  }
+  ],
+
+  "mobile": [
+    { "route": "LoginScreen",            "feature": "sign-in",            "area": "auth",     "churn30d": 2,  "defects90d": 1, "traffic": 100 },
+    { "route": "ProductsScreen",         "feature": "catalog",            "area": "catalog",  "churn30d": 6,  "defects90d": 2, "traffic": 92 },
+    { "route": "ProductDetailScreen",    "feature": "product detail",     "area": "catalog",  "churn30d": 4,  "defects90d": 1, "traffic": 44 },
+    { "route": "CartScreen",             "feature": "cart",               "area": "cart",     "churn30d": 8,  "defects90d": 2, "traffic": 35 },
+    { "route": "CheckoutScreen",         "feature": "checkout",           "area": "checkout", "churn30d": 19, "defects90d": 3, "traffic": 21 },
+    { "route": "CheckoutCompleteScreen", "feature": "order confirmation", "area": "checkout", "churn30d": 3,  "defects90d": 0, "traffic": 17 },
+    { "route": "MenuDrawer",             "feature": "navigation",         "area": "navigation", "churn30d": 2, "defects90d": 0, "traffic": 60 },
+    { "route": "AccountScreen",          "feature": "account settings",   "area": "account",  "churn30d": 1,  "defects90d": 2, "traffic": 11 }
+  ],
+
+  "featureToCases": {
+    "_note": "Which case IDs exercise which feature. Produced in production by instrumenting a run and recording visited routes; held here as a fixture.",
+    "/": ["WEB-AUTH-001", "WEB-AUTH-002", "WEB-AUTH-003", "WEB-AUTH-004", "WEB-AUTH-005"],
+    "/inventory.html": ["WEB-CAT-001", "WEB-CAT-002", "WEB-CAT-003", "WEB-CAT-004", "WEB-CART-001", "WEB-CART-002"],
+    "/inventory-item.html": ["WEB-CAT-005"],
+    "/cart.html": ["WEB-CART-003", "WEB-CART-004", "WEB-CHK-001", "WEB-CHK-004"],
+    "/checkout-step-one.html": ["WEB-CHK-001", "WEB-CHK-002", "WEB-CHK-004"],
+    "/checkout-step-two.html": ["WEB-CHK-001", "WEB-CHK-003"],
+    "/checkout-express.html": [],
+    "/checkout-complete.html": ["WEB-CHK-001", "WEB-CHK-005"],
+    "/account.html": [],
+    "/order-history.html": [],
+    "/password-reset.html": [],
+    "LoginScreen": ["MOB-AUTH-001"],
+    "ProductsScreen": ["MOB-CAT-001"],
+    "ProductDetailScreen": ["MOB-CART-001"],
+    "CartScreen": ["MOB-CART-001", "MOB-CHK-001"],
+    "CheckoutScreen": ["MOB-CHK-001", "MOB-CHK-002"],
+    "CheckoutCompleteScreen": ["MOB-CHK-001"],
+    "MenuDrawer": ["MOB-NAV-001"],
+    "AccountScreen": []
+  }
+}

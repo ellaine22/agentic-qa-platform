@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      CYPRESS_INSTALL_BINARY: 0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+      # Full lifecycle with the local provider and replay driver: no network, no API key
+      - run: npm run demo
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dashboard
+          path: out/dashboard.html
+          retention-days: 7

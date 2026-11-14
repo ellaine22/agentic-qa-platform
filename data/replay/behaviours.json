@@ -1,0 +1,69 @@
+{
+  "_note": "Recorded behaviour of the public demo site per test identity, used by the replay driver so the whole pipeline runs without network access. These are real, documented behaviours of saucedemo.com: the problem_user account genuinely exhibits each defect below. Delete this file and use --driver cypress to execute against the live site instead.",
+  "source": "https://www.saucedemo.com",
+
+  "identities": {
+    "standard_user": {
+      "description": "Healthy baseline. Everything behaves as specified.",
+      "defects": []
+    },
+
+    "locked_out_user": {
+      "description": "Sign-in is refused.",
+      "defects": [
+        {
+          "when": { "area": "auth" },
+          "signature": "auth-locked-out",
+          "message": "Epic sadface: Sorry, this user has been locked out."
+        }
+      ]
+    },
+
+    "problem_user": {
+      "description": "Seeded defects. Used as the express treatment identity so the treatment comparison produces genuine failures.",
+      "defects": [
+        {
+          "when": { "area": "catalog", "titleMatches": ["image", "asset"] },
+          "signature": "catalog-image-asset-mismatch",
+          "message": "All 6 catalog items resolved to the same asset (sl-404.jpg) instead of their own product image",
+          "observed": "img[src] identical across .inventory_item_img for every item"
+        },
+        {
+          "when": { "area": "catalog", "titleMatches": ["sort", "ascending", "descending", "order"] },
+          "signature": "catalog-sort-no-reorder",
+          "message": "Selecting a sort option did not reorder the catalog; DOM order unchanged after selection",
+          "observed": "product-sort-container value changed, .inventory_item order identical"
+        },
+        {
+          "when": { "area": "cart", "titleMatches": ["remove", "clear"] },
+          "signature": "cart-remove-no-op",
+          "message": "Remove control did not change the cart badge; item remained in the cart",
+          "observed": "click on [data-test^=remove] produced no state change"
+        },
+        {
+          "when": { "area": "checkout", "titleMatches": ["last name", "complete", "valid", "confirmation", "total", "tax", "submit", "order"] },
+          "signature": "checkout-lastname-input-dropped",
+          "message": "Last Name field discarded typed input; submit blocked with 'Error: Last Name is required'",
+          "observed": "[data-test=lastName] value empty after type(); error container visible"
+        }
+      ]
+    },
+
+    "performance_glitch_user": {
+      "description": "Correct behaviour but slow page loads.",
+      "defects": [],
+      "latencyMs": 5200
+    }
+  },
+
+  "lowConfidencePhrases": [
+    "own image",
+    "no placeholder",
+    "intact",
+    "correctly",
+    "does not obscure",
+    "renders",
+    "live totals",
+    "no two items"
+  ]
+}

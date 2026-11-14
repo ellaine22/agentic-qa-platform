@@ -1,0 +1,63 @@
+{
+  "organisation": "SwagShop",
+  "description": "Prototype configuration. Point the connector baseUrls at the real Jira/Confluence/flag platform to go live; the mock implementations read from data/fixtures instead.",
+
+  "llm": {
+    "provider": "local",
+    "_providers": ["local", "anthropic"],
+    "_note": "local = deterministic, no API key, runs offline. anthropic = real Claude, needs ANTHROPIC_API_KEY or an `ant auth login` profile. Override with QA_LLM_PROVIDER.",
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "maxTokens": 16000
+  },
+
+  "connectors": {
+    "jira": { "impl": "mock", "fixtures": "data/fixtures/jira", "projectKey": "SWAG" },
+    "confluence": { "impl": "mock", "fixtures": "data/fixtures/confluence", "space": "QA", "publishTo": "out/confluence" },
+    "flags": { "impl": "mock", "state": "data/flags.json" },
+    "git": { "impl": "local", "specRoots": ["cypress/e2e", "maestro/flows"] }
+  },
+
+  "platforms": {
+    "web": {
+      "framework": "cypress",
+      "specRoot": "cypress/e2e",
+      "specExtension": ".cy.js",
+      "baseUrl": "https://www.saucedemo.com",
+      "secondaryUrl": "https://the-internet.herokuapp.com"
+    },
+    "mobile": {
+      "framework": "maestro",
+      "specRoot": "maestro/flows",
+      "specExtension": ".yaml",
+      "appId": "com.saucelabs.mydemoapp.rn",
+      "_note": "Public demo app: https://github.com/saucelabs/my-demo-app-rn/releases"
+    }
+  },
+
+  "autonomy": {
+    "level": 2,
+    "_levels": {
+      "1": "Agent prepares and guides, human records every verdict",
+      "2": "Agent executes, human reviews failures + low confidence + a sample of passes",
+      "3": "Agent executes, human reviews failures only for low-risk areas"
+    },
+    "reviewSampleRate": 0.2,
+    "confidenceThreshold": 0.8,
+    "alwaysReview": ["checkout", "payments", "auth", "pii"],
+    "_alwaysReview": "Case areas that always get a human verdict, whatever the confidence or autonomy level. Checkout is here because the PRD marks it payment-adjacent."
+  },
+
+  "gates": {
+    "plan_approval": { "stage": "planning", "role": "qa-lead", "required": true },
+    "case_review": { "stage": "case-design", "role": "qa-lead", "required": true },
+    "execution_review": { "stage": "project-testing", "role": "qa-lead", "required": true },
+    "release_signoff": { "stage": "release-candidate", "role": "qa-lead", "required": true },
+    "rollout_decision": { "stage": "rollout", "role": "product", "required": true }
+  },
+
+  "coverage": {
+    "riskWeights": { "churn": 0.4, "defects": 0.4, "traffic": 0.2 },
+    "targets": { "requirements": 1.0, "cases": 0.7, "features": 0.8 }
+  }
+}

@@ -1,0 +1,27 @@
+# Web regression: timing and resilience patterns, exercised against the second
+# public prototype site (the-internet.herokuapp.com) because saucedemo has no
+# async loading or native dialogs.
+area: resilience
+platform: web
+cases:
+  - id: WEB-RES-001
+    title: Content behind a loading indicator is asserted only once it appears
+    priority: P2
+    risk: low
+    source: regression
+    tags: [resilience, async]
+    steps:
+      - action: Trigger the dynamically loaded content
+        target: "#start button"
+        expect: The finished text appears after the loader clears
+
+  - id: WEB-RES-002
+    title: A native confirm dialog is accepted and its result recorded
+    priority: P3
+    risk: low
+    source: regression
+    tags: [resilience, dialogs]
+    steps:
+      - action: Trigger the confirm dialog and accept it
+        target: "onclick=jsConfirm()"
+        expect: The result text records that the dialog was accepted

@@ -1,0 +1,72 @@
+# Mobile regression (Maestro, public Sauce Labs demo app)
+area: mobile-core
+platform: mobile
+cases:
+  - id: MOB-AUTH-001
+    title: Customer signs in with valid credentials
+    priority: P1
+    risk: high
+    source: regression
+    tags: [smoke, auth]
+    steps:
+      - action: Open the app and sign in with valid credentials
+        target: "Login"
+        expect: The catalog screen is shown
+
+  - id: MOB-CAT-001
+    title: Catalog lists products with name and price
+    priority: P1
+    risk: medium
+    source: regression
+    tags: [smoke, catalog]
+    steps:
+      - action: Open the catalog
+        target: "Products"
+        expect: Products are listed with names and prices
+
+  - id: MOB-CART-001
+    title: Adding a product updates the cart badge
+    priority: P1
+    risk: medium
+    source: regression
+    tags: [smoke, cart]
+    steps:
+      - action: Open a product and add it to the cart
+        target: "Add To Cart"
+        expect: The cart badge shows one item
+
+  - id: MOB-CHK-001
+    title: Checkout completes with valid details
+    priority: P1
+    risk: high
+    source: regression
+    tags: [smoke, checkout]
+    steps:
+      - action: Open the cart and proceed to checkout
+        target: "Proceed To Checkout"
+        expect: The checkout form is shown
+      - action: Enter delivery details and place the order
+        target: "Place Order"
+        expect: The confirmation screen is shown
+
+  - id: MOB-CHK-002
+    title: Checkout is refused when delivery details are incomplete
+    priority: P2
+    risk: high
+    source: regression
+    tags: [checkout, negative]
+    steps:
+      - action: Submit the checkout form with the postal code left blank
+        target: "To Payment"
+        expect: A validation message is shown and the order is not placed
+
+  - id: MOB-NAV-001
+    title: The menu navigates between catalog, cart and account
+    priority: P3
+    risk: low
+    source: regression
+    tags: [navigation]
+    steps:
+      - action: Open the menu and move between the main destinations
+        target: "menu"
+        expect: Each destination loads its own screen

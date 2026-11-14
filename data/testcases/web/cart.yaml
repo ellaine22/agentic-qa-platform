@@ -1,0 +1,46 @@
+area: cart
+platform: web
+cases:
+  - id: WEB-CART-001
+    title: Adding a product updates the cart badge
+    priority: P1
+    risk: medium
+    source: regression
+    tags: [smoke, cart]
+    steps:
+      - action: Add a product to the cart from the catalog
+        target: "[data-test^=add-to-cart]"
+        expect: The cart badge shows one item
+
+  - id: WEB-CART-002
+    title: Removing a product from the catalog clears the badge
+    priority: P2
+    risk: low
+    source: regression
+    tags: [cart]
+    steps:
+      - action: Add a product then remove it from the catalog
+        target: "[data-test^=remove]"
+        expect: The cart badge is no longer shown
+
+  - id: WEB-CART-003
+    title: The cart page lists the products that were added
+    priority: P1
+    risk: medium
+    source: regression
+    tags: [smoke, cart]
+    steps:
+      - action: Add two products and open the cart
+        target: ".shopping_cart_link"
+        expect: Both products are listed with the correct names and prices
+
+  - id: WEB-CART-004
+    title: Continue shopping returns to the catalog with the cart intact
+    priority: P3
+    risk: low
+    source: regression
+    tags: [cart]
+    steps:
+      - action: Open the cart and choose continue shopping
+        target: "[data-test=continue-shopping]"
+        expect: The catalog is shown and the cart badge still reflects the added items

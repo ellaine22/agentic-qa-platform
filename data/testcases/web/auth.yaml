@@ -1,0 +1,64 @@
+# Web regression: authentication
+# System of record for test cases. Automation status is NOT stored here --
+# it is derived by the coverage agent from @case tags found in the spec files.
+area: auth
+platform: web
+cases:
+  - id: WEB-AUTH-001
+    title: Customer signs in with valid credentials
+    priority: P1
+    risk: high
+    source: regression
+    stories: []
+    tags: [smoke, auth]
+    steps:
+      - action: Open the sign-in page
+        target: "/"
+        expect: The username and password fields are visible
+      - action: Enter valid credentials and submit
+        target: "[data-test=login-button]"
+        expect: The catalog page loads at /inventory.html
+
+  - id: WEB-AUTH-002
+    title: Sign-in is refused for a locked-out account
+    priority: P1
+    risk: high
+    source: regression
+    tags: [auth, negative]
+    steps:
+      - action: Sign in as a locked-out account
+        target: "[data-test=login-button]"
+        expect: An error message explains the account is locked and the catalog does not load
+
+  - id: WEB-AUTH-003
+    title: Sign-in is refused when the password is wrong
+    priority: P2
+    risk: medium
+    source: regression
+    tags: [auth, negative]
+    steps:
+      - action: Submit a valid username with an incorrect password
+        target: "[data-test=login-button]"
+        expect: An error message is shown and the customer stays on the sign-in page
+
+  - id: WEB-AUTH-004
+    title: Submitting an empty form shows a required-field error
+    priority: P3
+    risk: low
+    source: regression
+    tags: [auth, negative]
+    steps:
+      - action: Submit the sign-in form with both fields empty
+        target: "[data-test=login-button]"
+        expect: A required-field error names the missing username
+
+  - id: WEB-AUTH-005
+    title: Sign out returns the customer to the sign-in page
+    priority: P2
+    risk: medium
+    source: regression
+    tags: [auth]
+    steps:
+      - action: Open the burger menu and choose logout
+        target: "#logout_sidebar_link"
+        expect: The sign-in page is shown and the session is cleared

@@ -1,0 +1,62 @@
+area: catalog
+platform: web
+cases:
+  - id: WEB-CAT-001
+    title: Catalog lists every product with name, price and image
+    priority: P1
+    risk: medium
+    source: regression
+    tags: [smoke, catalog]
+    steps:
+      - action: Sign in and land on the catalog
+        target: "/inventory.html"
+        expect: Six products are listed, each with a name, a price and its own image
+
+  - id: WEB-CAT-002
+    title: Each product image is the product's own asset
+    priority: P2
+    risk: medium
+    source: regression
+    stories: [SWAG-106]
+    tags: [catalog, assets]
+    steps:
+      - action: Read the image source of every catalog item
+        target: ".inventory_item_img img"
+        expect: No two items share an image and no placeholder asset is served
+
+  - id: WEB-CAT-003
+    title: Sorting by price ascending reorders the catalog
+    priority: P2
+    risk: low
+    source: regression
+    flag: sorted_catalog
+    treatment: "on"
+    tags: [catalog, sorting]
+    steps:
+      - action: Choose price low to high in the sort control
+        target: "[data-test=product-sort-container]"
+        expect: Prices are listed in ascending order
+
+  - id: WEB-CAT-004
+    title: Sorting by name descending reorders the catalog
+    priority: P3
+    risk: low
+    source: regression
+    flag: sorted_catalog
+    treatment: "off"
+    tags: [catalog, sorting]
+    steps:
+      - action: Choose name Z to A in the sort control
+        target: "[data-test=product-sort-container]"
+        expect: Product names are listed in descending alphabetical order
+
+  - id: WEB-CAT-005
+    title: Opening a product shows its detail page
+    priority: P2
+    risk: low
+    source: regression
+    tags: [catalog]
+    steps:
+      - action: Select a product name from the catalog
+        target: ".inventory_item_name"
+        expect: The detail page shows the same name, price and description

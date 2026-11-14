@@ -1,0 +1,65 @@
+area: checkout
+platform: web
+cases:
+  - id: WEB-CHK-001
+    title: Checkout completes with valid customer details
+    priority: P1
+    risk: high
+    source: regression
+    tags: [smoke, checkout]
+    steps:
+      - action: Open the cart with one item and start checkout
+        target: "[data-test=checkout]"
+        expect: The checkout form is shown
+      - action: Enter first name, last name and postal code and continue
+        target: "[data-test=continue]"
+        expect: The overview shows the item, tax and total
+      - action: Finish the order
+        target: "[data-test=finish]"
+        expect: A confirmation message is shown and the cart badge is cleared
+
+  - id: WEB-CHK-002
+    title: Checkout is refused when the last name is missing
+    priority: P1
+    risk: high
+    source: regression
+    tags: [checkout, negative]
+    steps:
+      - action: Submit the checkout form with the last name left blank
+        target: "[data-test=continue]"
+        expect: An error names the missing last name and the customer stays on the form
+
+  - id: WEB-CHK-003
+    title: Tax and total are calculated correctly
+    priority: P1
+    risk: high
+    source: regression
+    stories: [SWAG-103]
+    tags: [checkout, totals]
+    steps:
+      - action: Reach the checkout overview with known item prices
+        target: ".summary_subtotal_label"
+        expect: Tax is 8% of the item total and the total is item total plus tax
+
+  - id: WEB-CHK-004
+    title: Cancelling checkout returns the customer to the cart
+    priority: P2
+    risk: medium
+    source: regression
+    tags: [checkout]
+    steps:
+      - action: Start checkout then cancel
+        target: "[data-test=cancel]"
+        expect: The cart is shown with its items intact
+
+  - id: WEB-CHK-005
+    title: Back Home after completion returns to the catalog
+    priority: P3
+    risk: low
+    source: regression
+    stories: [SWAG-104]
+    tags: [checkout]
+    steps:
+      - action: Complete an order and choose back home
+        target: "[data-test=back-to-products]"
+        expect: The catalog is shown with an empty cart

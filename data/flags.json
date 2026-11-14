@@ -1,0 +1,102 @@
+{
+  "_note": "Mock feature-flag platform. Mirrors the shape of a Split/LaunchDarkly rule set. In the prototype, a treatment also carries a `testIdentity` so the executor can make the two treatments genuinely behave differently against the public demo site instead of faking a difference.",
+  "flags": [
+    {
+      "key": "express_checkout",
+      "name": "Express Checkout",
+      "owner": "SWAG-101",
+      "platforms": [
+        "web",
+        "mobile"
+      ],
+      "status": "ramping",
+      "environments": {
+        "test": {
+          "defaultTreatment": "control",
+          "allocation": {
+            "control": 50,
+            "express": 50
+          }
+        },
+        "prod": {
+          "defaultTreatment": "control",
+          "allocation": {
+            "control": 95,
+            "express": 5
+          }
+        }
+      },
+      "treatments": [
+        {
+          "key": "control",
+          "description": "Existing three-step checkout",
+          "testIdentity": {
+            "username": "standard_user",
+            "password": "secret_sauce"
+          }
+        },
+        {
+          "key": "express",
+          "description": "One-page express checkout",
+          "testIdentity": {
+            "username": "problem_user",
+            "password": "secret_sauce"
+          },
+          "_note": "problem_user on saucedemo exhibits real defects (broken product images, a last-name field that drops input). The executor therefore finds genuine failures in this treatment, which is what drives the triage and no-go demo."
+        }
+      ],
+      "experiment": {
+        "status": "running",
+        "metric": "checkout_completion_rate",
+        "winner": null
+      }
+    },
+    {
+      "key": "sorted_catalog",
+      "name": "Sorted catalog default",
+      "owner": "SWAG-088",
+      "platforms": [
+        "web"
+      ],
+      "status": "launched",
+      "environments": {
+        "test": {
+          "defaultTreatment": "on",
+          "allocation": {
+            "on": 100
+          }
+        },
+        "prod": {
+          "defaultTreatment": "on",
+          "allocation": {
+            "on": 100
+          }
+        }
+      },
+      "treatments": [
+        {
+          "key": "off",
+          "description": "Unsorted",
+          "testIdentity": {
+            "username": "standard_user",
+            "password": "secret_sauce"
+          }
+        },
+        {
+          "key": "on",
+          "description": "Price-ascending default",
+          "testIdentity": {
+            "username": "standard_user",
+            "password": "secret_sauce"
+          }
+        }
+      ],
+      "experiment": {
+        "status": "concluded",
+        "metric": "add_to_cart_rate",
+        "winner": "on"
+      },
+      "_note": "Launched at 100% with a winner, and still referenced by tests. The rollout watcher should flag this one for automation promotion and flag cleanup."
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "key": "SWAG-101",
+  "type": "Epic",
+  "summary": "Express Checkout",
+  "status": "In Progress",
+  "flag": "express_checkout",
+  "platforms": ["web", "mobile"],
+  "riskAreas": ["payments", "checkout"],
+  "description": "Collapse the current three-step checkout (information, overview, confirmation) into a single page so returning customers can complete a purchase in one submit. Behind the express_checkout flag, tested against both treatments, rolled out to 5% of production users first.",
+  "confluence": ["PRD-Express-Checkout", "TECH-Express-Checkout"],
+  "stories": [
+    {
+      "key": "SWAG-102",
+      "summary": "Single-page checkout form",
+      "platform": "web",
+      "area": "checkout",
+      "acceptanceCriteria": [
+        "First name, last name and postal code appear on one page with the order summary",
+        "Each field shows an inline error when left blank on submit",
+        "The form retains entered values when a validation error is shown",
+        "Control treatment continues to show the existing three-step flow"
+      ]
+    },
+    {
+      "key": "SWAG-103",
+      "summary": "Order summary with live totals",
+      "platform": "web",
+      "area": "checkout",
+      "acceptanceCriteria": [
+        "Item total, tax and total are shown before submit",
+        "Totals update when an item is removed from the summary",
+        "Tax is calculated at 8% of item total"
+      ]
+    },
+    {
+      "key": "SWAG-104",
+      "summary": "Confirmation and order completion",
+      "platform": "web",
+      "area": "checkout",
+      "acceptanceCriteria": [
+        "A confirmation message is shown after a successful submit",
+        "The cart badge is cleared after completion",
+        "Back Home returns the customer to the catalog"
+      ]
+    },
+    {
+      "key": "SWAG-105",
+      "summary": "Express checkout on mobile",
+      "platform": "mobile",
+      "area": "checkout",
+      "acceptanceCriteria": [
+        "The single-page form renders on iOS and Android",
+        "The keyboard does not obscure the submit button",
+        "Order completion returns the customer to the catalog"
+      ]
+    },
+    {
+      "key": "SWAG-106",
+      "summary": "Product images on the catalog remain correct",
+      "platform": "web",
+      "area": "catalog",
+      "acceptanceCriteria": [
+        "Each catalog item shows its own product image",
+        "No placeholder or duplicate image is served in either treatment"
+      ]
+    }
+  ]
+}

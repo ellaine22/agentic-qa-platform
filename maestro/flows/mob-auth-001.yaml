@@ -1,0 +1,22 @@
+# @case:MOB-AUTH-001 Customer signs in with valid credentials
+# Public demo app: https://github.com/saucelabs/my-demo-app-rn/releases
+appId: com.saucelabs.mydemoapp.rn
+env:
+  USERNAME: bob@example.com
+  PASSWORD: 10203040
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "open menu"
+- tapOn: "Log In"
+- tapOn:
+    id: "Username input field"
+- inputText: ${USERNAME}
+- tapOn:
+    id: "Password input field"
+- inputText: ${PASSWORD}
+- tapOn:
+    id: "Login button"
+- assertVisible: "Products"
+- takeScreenshot: evidence/MOB-AUTH-001

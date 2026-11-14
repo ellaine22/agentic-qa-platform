@@ -1,0 +1,44 @@
+# @case:MOB-CHK-001 Checkout completes with valid details
+appId: com.saucelabs.mydemoapp.rn
+env:
+  USERNAME: bob@example.com
+  PASSWORD: 10203040
+  TREATMENT: control
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "store item"
+    index: 0
+- tapOn: "Add To Cart"
+- tapOn:
+    id: "cart badge"
+- assertVisible: "Proceed To Checkout"
+- tapOn: "Proceed To Checkout"
+- tapOn:
+    id: "Username input field"
+- inputText: ${USERNAME}
+- tapOn:
+    id: "Password input field"
+- inputText: ${PASSWORD}
+- tapOn:
+    id: "Login button"
+- assertVisible: "Enter a shipping address"
+- tapOn:
+    id: "Full Name* input field"
+- inputText: "Ada Lovelace"
+- tapOn:
+    id: "Address Line 1* input field"
+- inputText: "1 King St W"
+- tapOn:
+    id: "City* input field"
+- inputText: "Kitchener"
+- tapOn:
+    id: "Zip Code* input field"
+- inputText: "N2H1A1"
+- tapOn:
+    id: "Country* input field"
+- inputText: "Canada"
+- tapOn: "To Payment"
+- assertVisible: "Enter a payment method"
+- takeScreenshot: evidence/MOB-CHK-001
