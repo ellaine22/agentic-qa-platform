@@ -12,7 +12,10 @@ It runs against two public sites so there is a real application under test:
 
 ## Run it
 
+Requires a patched Node release: 22.23.5+, 24.22.3+ or 26.13.1+. Older builds still trust the compromised eMudhra intermediate CA. `.nvmrc` pins 24.22.3.
+
 ```bash
+nvm use
 npm install
 npm run demo          # the whole lifecycle, offline, in about two seconds
 npm test              # the behaviours the platform's trustworthiness rests on
